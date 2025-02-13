@@ -46,7 +46,7 @@ void lowBattery() {
 	}
 }
 
-void fullBattery() {
+inline void fullBattery() {
 	MessageBox(NULL, "Your battery has charged fully. Please plug out your charger.", "Battery Status Update", MB_SYSTEMMODAL);
 }
 
