@@ -7,7 +7,11 @@
 #include <thread>
 #include <chrono>
 
-int batteryLevel() {
+int battery_low = 16;
+int battery_full = 98;
+int check_interval = 3;
+
+inline int batteryLevel() {
 	SYSTEM_POWER_STATUS status;
 	int toReturn;
 	if (GetSystemPowerStatus(&status)) {
@@ -19,15 +23,44 @@ int batteryLevel() {
 	return toReturn;
 }
 
+inline bool isCharging() {
+	SYSTEM_POWER_STATUS status;
+	bool toReturn;
+	if (GetSystemPowerStatus(&status)) {
+		toReturn = status.ACLineStatus == AC_LINE_ONLINE;
+	} else {
+		std::cerr << "Unable to retrieve battery status." << std::endl;
+		return false;
+	}
+	return toReturn;
+}
+
+void lowBattery() {
+	MessageBox(NULL, "Your battery is low. Please plug in your charger.", "Battery Status Update", MB_SYSTEMMODAL);
+	while (true) {
+		int battery = batteryLevel();
+		if (battery > battery_low) {
+			return;
+		}
+		std::this_thread::sleep_for(std::chrono::seconds(check_interval));
+	}
+}
+
+void fullBattery() {
+	MessageBox(NULL, "Your battery has charged fully. Please plug out your charger.", "Battery Status Update", MB_SYSTEMMODAL);
+}
+
 void displayDialogueBox() {
 	while (true) {
 		int battery = batteryLevel();
-		if (battery <= 10) {
-			MessageBox(NULL, "Your battery is low. Please plug in your charger.", "Battery Status Update", MB_OK);
-		}else if (battery >= 98) {
-			MessageBox(NULL, "Your battery has charged fully. Please plug out your charger.", "Battery Status Update", MB_OK);
+		bool charging = isCharging();
+		
+		if (battery <= battery_low and not charging) {
+			lowBattery();
+		} else if (battery >= battery_full and charging) {
+			fullBattery();
 		}
-		std::this_thread::sleep_for(std::chrono::seconds(3));
+		std::this_thread::sleep_for(std::chrono::seconds(check_interval));
 	}
 }
 

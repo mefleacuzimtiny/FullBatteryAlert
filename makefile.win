@@ -30,7 +30,7 @@ FullBatteryAlert.exe: $(OBJ)
 	$(CXX) $(LINKOBJ) -o "FullBatteryAlert.exe" $(LIBS)
 
 main.o: main.cpp
-	$(CXX) -c "main.cpp" -o "main.o" $(CXXFLAGS) 
+	$(CXX) -c "main.cpp" -o "main.o" $(CXXFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1252
 
 FullBatteryAlert_private.res: FullBatteryAlert_private.rc 
 	$(WINDRES) -i "FullBatteryAlert_private.rc" --input-format=rc -o "FullBatteryAlert_private.res" -O coff $(WINDRESFLAGS) 
