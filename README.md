@@ -1,1 +1,2 @@
-Just put FullBatteryAlert.exe in your startup folder and you should be good to go.
+Just put FullBatteryAlert.exe in your startup folder and you should be good to go. It should be possible to change the level at which the "battery low" alert pops up (and other settings) by editing the three variables in `./headers/battery.h` and then rebuilding the whole thing (can be done in dev-c++ pretty easily, though I'm not sure how well this'd go in VS Community)
+In the future, I might add more functionality to this so that the settings can be changed more easily, but this is good enough for my needs as of right now.
