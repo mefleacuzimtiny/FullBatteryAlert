@@ -36,12 +36,9 @@ inline bool isCharging() {
 }
 
 void lowBattery() {
+	// prints message, empty (sub)loop runs while battery is low. Sub-loop exits to main-loop when battery not low
 	MessageBox(NULL, "Your battery is low. Please plug in your charger.", "Battery Status Update", MB_SYSTEMMODAL);
-	while (true) {
-		int battery = batteryLevel();
-		if (battery > battery_low) {
-			return;
-		}
+	while (batteryLevel() <= battery_low) {		// idle sub-loop: this sub-loop locks the program in this while block until battery is not low to prevent it from repeating the message box every 3 seconds
 		std::this_thread::sleep_for(std::chrono::seconds(check_interval));
 	}
 }
@@ -51,7 +48,7 @@ inline void fullBattery() {
 }
 
 void displayDialogueBox() {
-	while (true) {
+	while (true) {			// main-loop
 		int battery = batteryLevel();
 		bool charging = isCharging();
 		
