@@ -1,0 +1,37 @@
+# Project: FullBatteryAlert
+# Makefile created by Red Panda C++ 3.2.2958
+
+CXX      = "g++.exe"
+CC       = "gcc.exe"
+WINDRES  = "windres.exe"
+RM       = del /q /f
+CD       = cd /d
+LIBS     = "-mwindows"
+INCS     = 
+CXXINCS  = 
+CXXFLAGS = $(CXXINCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
+CFLAGS   = $(INCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
+WINDRESFLAGS = 
+RES      = FullBatteryAlert_private.res
+OBJ      = main.o $(RES)
+BIN      = FullBatteryAlert.exe
+LINKOBJ  = "main.o" "FullBatteryAlert_private.res"
+CLEANOBJ = "main.o" "FullBatteryAlert_private.res" "FullBatteryAlert.exe"
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) >NUL 2>&1
+
+FullBatteryAlert.exe: $(OBJ)
+
+	$(CXX) $(LINKOBJ) -o "FullBatteryAlert.exe" $(LIBS)
+
+main.o: main.cpp
+	$(CXX) -c "main.cpp" -o "main.o" $(CXXFLAGS) 
+
+FullBatteryAlert_private.res: FullBatteryAlert_private.rc 
+	$(WINDRES) -i "FullBatteryAlert_private.rc" --input-format=rc -o "FullBatteryAlert_private.res" -O coff $(WINDRESFLAGS) 
+
