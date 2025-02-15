@@ -1,0 +1,1 @@
+Build it as an executable and add it to `AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` so it runs when windows starts and you should be good to go
