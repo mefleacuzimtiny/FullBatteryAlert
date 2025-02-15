@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 
-int battery_low = 16;
+int battery_low = 15;
 int battery_full = 98;
 int check_interval = 3;
 
